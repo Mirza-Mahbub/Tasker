@@ -39,6 +39,9 @@ export default function TaskList({ tasks, onEdit, onDelete, onFav }) {
                 <button
                   className="cursor-pointer"
                   onClick={() => onFav(task.id)}
+                  title={
+                    task.isFavorite ? "Remove from favorite" : "Add to favorite"
+                  }
                 >
                   {task.isFavorite ? (
                     <FaStar color="yellow" />

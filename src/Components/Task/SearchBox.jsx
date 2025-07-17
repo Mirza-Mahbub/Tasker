@@ -1,9 +1,18 @@
-export default function SearchTask() {
+import { useState } from "react";
+
+export default function SearchTask({ onSearch }) {
+  const [searchTerm, setSearchTerm] = useState("");
+  function handleClick(event) {
+    event.preventDefault();
+    onSearch(searchTerm);
+  }
   return (
     <form action="" className="">
       <div className="flex">
         <div className="relative overflow-hidden rounded-lg text-gray-50 md:min-w-96 lg:min-w-md">
           <input
+            value={searchTerm}
+            onChange={() => setSearchTerm(event.target.value)}
             type="search"
             id="search-dropdown"
             placeholder="Search Task"
@@ -12,7 +21,8 @@ export default function SearchTask() {
           />
           <button
             type="submit"
-            className="absolute right-2 top-0 h-full rounded-e-lg"
+            onClick={handleClick}
+            className="absolute right-2 top-0 h-full rounded-e-lg cursor-pointer"
           >
             <svg
               className="h-4 w-4"

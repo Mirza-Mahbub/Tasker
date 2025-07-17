@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import AddTaskModal from "./Task/AddTaskModal";
+import NoTasksFound from "./Task/NoTask";
 import SearchTask from "./Task/SearchBox";
 import TaskActions from "./Task/TaskAction";
 import TaskList from "./Task/TaskList";
@@ -52,6 +53,14 @@ export default function TaskBoard() {
     setTask(newTask);
   }
 
+  function handleSearch(searchItem) {
+    console.log(searchItem);
+    const filtered = tasks.filter((task) =>
+      task.title.toLowerCase().includes(searchItem.toLowerCase())
+    );
+    setTask(filtered);
+  }
+
   return (
     <section className="mb-20 " id="tasks">
       {showAddModal && (
@@ -66,7 +75,7 @@ export default function TaskBoard() {
       )}
       <div className="container">
         <div className="p-2 flex justify-end">
-          <SearchTask />
+          <SearchTask onSearch={handleSearch} />
         </div>
         <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
           <TaskActions
@@ -79,12 +88,16 @@ export default function TaskBoard() {
               setTask([...tasks]);
             }}
           />
-          <TaskList
-            onDelete={handleDeleteTask}
-            tasks={tasks}
-            onEdit={handleEditTask}
-            onFav={handleFavoriteClick}
-          />
+          {tasks.length > 0 ? (
+            <TaskList
+              onDelete={handleDeleteTask}
+              tasks={tasks}
+              onEdit={handleEditTask}
+              onFav={handleFavoriteClick}
+            />
+          ) : (
+            <NoTasksFound />
+          )}
         </div>
       </div>
     </section>
